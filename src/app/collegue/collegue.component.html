@@ -1,0 +1,51 @@
+<article>
+    <div class="row">
+        <div class="col-4">
+            <img src="{{col.photoUrl}}" alt="photo" width="100%">
+        </div>
+        <div class="col-8 text-left">
+            <div class="row">
+                <div class="col-sm-4">Matricule</div>
+                <div class="col-sm-8">{{col.matricule}}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">Nom</div>
+                <div class="col-sm-8">{{col.nom | uppercase}}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">Prénoms</div>
+                <div class="col-sm-8">{{col.prenoms}}</div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">Date de naissance</div>
+                <div class="col-sm-8">{{col.dateDeNaissance | date:'dd/MM/yyyy'}}</div>
+            </div>
+            <div *ngIf="fonctionnalite==='read'" class="row">
+                <div class="col-sm-4">Email</div>
+                <div class="col-sm-8"><a href="{{col.email}}" class="text-warning">{{col.email}}</a></div>
+            </div>
+            <form *ngIf="fonctionnalite==='update'">
+                <div class="form-group row">
+                    <div class="col-sm-4">Email</div>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="email" placeholder="{{col.email}}">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-4">Photo URL</div>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" name="photoUrl" placeholder="{{col.photoUrl}}">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div *ngIf="fonctionnalite==='read'">
+        <a href="#" (click)="creerCollegue()" class="text-warning text-center">Créer un nouveau collègue</a>
+        <button (click)="modifierCollegue()" type="submit" class="btn btn-warning float-right">Modifier</button>
+    </div>
+    <div *ngIf="fonctionnalite==='update'">
+        <button (click)="validerModifierCollegue()" type="submit" class="btn btn-warning float-right">Valider</button>
+    </div>
+
+</article>

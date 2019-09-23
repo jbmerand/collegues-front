@@ -1,0 +1,12 @@
+<div class="row">
+    <div class="col-3"><p>Recherche par nom</p></div>
+    <div class="col-6"><input type="text" class="form-control" #nom></div>
+    <div class="col-3">
+        <button (click)="rechercherClick()" class="btn btn-warning">Rechercher</button>
+    </div>
+</div>
+<div>
+    <div *ngIf="isMatriculesHidden===false">
+        <p *ngFor="let matricule of matricules">{{matricule}}</p>
+    </div>
+</div>
