@@ -13,6 +13,7 @@ import { Component } from '@angular/core';
     </div>
     <h2>Here are some links to help you start: </h2>
     <ul>
+      <button type="button" class="btn btn-primary">Bootstrap</button>
       <li>
         <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
       </li>
