@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DataService} from "../services/data.service";
 
 @Component({
@@ -8,10 +8,10 @@ import {DataService} from "../services/data.service";
 })
 export class RechercherCollegueParNomComponent implements OnInit {
 
-    constructor(private _srv: DataService) {
+    constructor(private dataService: DataService) {
     }
 
-    @Input()
+    // @Input()
     matricules: string[];
 
     isMatriculesHidden: boolean = true;
@@ -21,7 +21,7 @@ export class RechercherCollegueParNomComponent implements OnInit {
     rechercherClick(nom): void {
         this.nom = nom;
         console.log(`recherche du collègue : ${this.nom}`);
-        this.matricules = this._srv.rechercherParNom(this.nom);
+        this.matricules = this.dataService.rechercherParNom(this.nom);
         this.isMatriculesHidden = false;
     }
 

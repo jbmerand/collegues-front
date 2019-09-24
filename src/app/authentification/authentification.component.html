@@ -1,0 +1,20 @@
+<div class="container card bg-dark text-warning" style="max-width: 40rem;">
+    <div class="card-header">
+        <h3 class="card-title">Authentification</h3>
+    </div>
+    <div class="card-body">
+        <form>
+            <div class="form-group">
+                <input #identifiant type="text" class="form-control" placeholder="identifiant (u1)">
+            </div>
+            <div class="form-group">
+                <input #motDePasse type="password" class="form-control" placeholder="mot de passe (pass1)">
+            </div>
+            <button (click)="authentifier(identifiant.value, motDePasse.value)"
+                    (keyup.enter)="authentifier(identifiant.value,
+            motDePasse.value)" type="button"
+                    class="btn btn-warning">Envoyer
+            </button>
+        </form>
+    </div>
+</div>

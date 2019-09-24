@@ -1,3 +1,6 @@
+/**
+ * Classe représentant un collègue de l'entreprise.
+ */
 class Collegue {
 
     constructor(public _matricule: string, public _nom: string, public _prenoms: string, public _email: string,

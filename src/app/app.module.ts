@@ -3,18 +3,22 @@ import {NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import { CollegueComponent } from './collegue/collegue.component';
-import { RechercherCollegueParNomComponent } from './rechercher-collegue-par-nom/rechercher-collegue-par-nom.component';
+import {CollegueComponent} from './collegue/collegue.component';
+import {RechercherCollegueParNomComponent} from './rechercher-collegue-par-nom/rechercher-collegue-par-nom.component';
+import {HttpClientModule} from "@angular/common/http";
+import { AuthentificationComponent } from './authentification/authentification.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         CollegueComponent,
-        RechercherCollegueParNomComponent
+        RechercherCollegueParNomComponent,
+        AuthentificationComponent
     ],
     imports: [
         BrowserModule,
-        AppRoutingModule
+        AppRoutingModule,
+        HttpClientModule
     ],
     providers: [],
     bootstrap: [AppComponent]

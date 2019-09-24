@@ -1,8 +1,4 @@
-import {Component, Input} from '@angular/core';
-import {collegueMock} from './mock/collegue.mock';
-import {matricules} from "./mock/matricules.mock";
-
-import Collegue from "./Collegue";
+import {Component} from '@angular/core';
 
 @Component({
     selector: 'app-root',
@@ -11,14 +7,14 @@ import Collegue from "./Collegue";
             <h1 class="p-4 text-warning">
                 Gestion des collègues
             </h1>
+            <app-authentification>Chargement de la fonctionnalité d'authentification...</app-authentification>
             <div class="row">
                 <div class="col-lg-5 col-12">
-                    <app-rechercher-collegue-par-nom [matricules]="matricules"></app-rechercher-collegue-par-nom>
+                    <app-rechercher-collegue-par-nom>Chargement de la fonctionnalité de recherche...</app-rechercher-collegue-par-nom>
                 </div>
                 <div class="col-12 p-3 col-lg-1 p-lg-0"></div>
                 <div class="col-lg-6 col-12">
-                    <!--<app-collegue [col]="collegue"></app-collegue>-->
-                    <app-collegue></app-collegue>
+                    <app-collegue>Chargement du collègue...</app-collegue>
                 </div>
 
             </div>
@@ -31,6 +27,4 @@ import Collegue from "./Collegue";
 })
 export class AppComponent {
 
-    collegue: Collegue = collegueMock;
-    matricules: string[] = matricules;
 }
