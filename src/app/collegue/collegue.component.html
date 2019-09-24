@@ -1,7 +1,7 @@
 <article>
     <div class="row">
         <div class="col-4">
-            <img src="{{col.photoUrl}}" alt="photo" width="100%">
+            <img src="{{col.photoUrl}}" alt="photo" class="img-fluid">
         </div>
         <div class="col-8 text-left">
             <div class="row">
@@ -47,5 +47,4 @@
     <div *ngIf="fonctionnalite==='update'">
         <button (click)="validerModifierCollegue()" type="submit" class="btn btn-warning float-right">Valider</button>
     </div>
-
 </article>
