@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {DataService} from "../services/data.service";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
     selector: 'app-rechercher-collegue-par-nom',
@@ -8,21 +9,39 @@ import {DataService} from "../services/data.service";
 })
 export class RechercherCollegueParNomComponent implements OnInit {
 
-    constructor(private dataService: DataService) {
-    }
+    constructor(private dataService: DataService) {}
 
-    // @Input()
     matricules: string[];
-
+    erreurRechercheMatricule: string;
+    erreurRecupererMatricule: string;
     isMatriculesHidden: boolean = true;
-
     nom: string;
 
     rechercherClick(nom): void {
         this.nom = nom;
         console.log(`recherche du collègue : ${this.nom}`);
-        this.matricules = this.dataService.rechercherParNom(this.nom);
+        this.dataService.rechercherParNom(this.nom)
+            .subscribe(
+                (value: any) => {
+                    this.matricules = value;
+                    this.erreurRechercheMatricule = undefined;
+                },
+                (error: HttpErrorResponse) => {
+                    this.erreurRechercheMatricule = `Echec de la récupération du/des matricule(s). ${error.error}`;
+                    this.matricules = undefined;
+                });
         this.isMatriculesHidden = false;
+    }
+
+    recupererCollegue(matricule: string) {
+        console.log(`récupération du collègue au matricule : ${matricule}`);
+        this.dataService.recupererCollegueParMatricule(matricule)
+            .subscribe(
+            (collegue) => collegue,
+            (error: HttpErrorResponse) => {
+                this.erreurRecupererMatricule = `Erreur dans la récupération du collègue.`;
+            }
+        );
     }
 
     ngOnInit() {

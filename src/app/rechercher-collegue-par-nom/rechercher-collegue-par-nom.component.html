@@ -6,11 +6,24 @@
         <input type="text" class="form-control" #inputRechercheNom>
     </div>
     <div class="col-3">
-        <button (click)="rechercherClick(inputRechercheNom.value)" class="btn btn-warning">Rechercher</button>
+        <button (click)="rechercherClick(inputRechercheNom.value)" class="btn btn-warning">
+            Rechercher
+        </button>
     </div>
 </div>
 <div>
     <div *ngIf="isMatriculesHidden===false">
-        <p *ngFor="let matricule of matricules">{{matricule}}</p>
+        <p class="text-danger p-3" *ngIf="erreurRechercheMatricule">{{erreurRechercheMatricule}}</p>
+        <ng-container *ngIf="matricules && matricules.length>0">
+        <ng-container *ngFor="let matricule of matricules">
+            <a href="#" class="d-block text-warning p-1"
+                (click)="recupererCollegue(matricule)">{{matricule |
+                uppercase}}
+            </a>
+        </ng-container>
+        </ng-container>
+    </div>
+    <div class="text-danger" *ngIf="erreurRecupererMatricule">
+        {{erreurRecupererMatricule}}
     </div>
 </div>

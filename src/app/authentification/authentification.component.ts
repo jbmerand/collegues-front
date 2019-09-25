@@ -1,21 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 import {DataService} from "../services/data.service";
 
 @Component({
-  selector: 'app-authentification',
-  templateUrl: './authentification.component.html',
-  styleUrls: []
+    selector: 'app-authentification',
+    templateUrl: './authentification.component.html',
+    styleUrls: []
 })
-export class AuthentificationComponent implements OnInit {
+export class AuthentificationComponent {
 
-  constructor(private dataService: DataService) { }
+    isAuthentifier: boolean = false;
+    erreurAuthentifier: string;
 
-  authentifier(identifiant: string, motDePasse: string): void {
-    console.log(identifiant + motDePasse);
-    this.dataService.authentifier(identifiant, motDePasse);
-  }
+    constructor(private dataService: DataService) {
+    }
 
-  ngOnInit() {
-  }
-
+    authentifier(identifiant: string, motDePasse: string): void {
+        this.dataService.authentifier(identifiant, motDePasse)
+            .subscribe(
+                () => {
+                    this.isAuthentifier = true;
+                },
+                () => {
+                    this.erreurAuthentifier = 'Echec de l\'authentification';
+                }
+            );
+    }
 }

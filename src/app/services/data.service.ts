@@ -1,65 +1,86 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import Collegue from "../Collegue";
-import {collegueMock} from "../mock/collegue.mock";
-import {matricules} from "../mock/matricules.mock";
-import {Observable} from "rxjs";
-import {HttpClient, HttpHeaders, HttpResponse} from "@angular/common/http";
+import {Observable, of, Subject} from "rxjs";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from '../../environments/environment';
+import {tap} from "rxjs/operators";
 
 const URL_BACKEND = environment.backendUrl;
 
-/*interface Post {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-}*/
-
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class DataService {
 
-  get http(): HttpClient {
-    return this._http;
-  }
+    private authenticate = new Subject<boolean>();
+    private _collegueCourant = new Subject<Collegue>();
 
-  constructor(private _http: HttpClient) { }
+    constructor(private _http: HttpClient) {
+    }
 
-  rechercherParNom(nom : string): string[] {
+    get authenticateObs(): Observable<boolean> {
+        return this.authenticate.asObservable();
+    }
 
-    this._http.get(`${URL_BACKEND}//collegues?nom=${nom}`)
-        .subscribe((data: any) => {
-          // cas ok
-        }, (error:any) => {
-          // cas erreur
-        });
-    return matricules;
-  }
+    get http(): HttpClient {
+        return this._http;
+    }
 
-  recupererCollegueCourant(): Collegue {
-    return collegueMock;
-  }
+    get collegueCourantObs(): Observable<Collegue> {
+        return this._collegueCourant.asObservable();
+    }
 
-  authentifier(identifiant: string, motDePasse: string): void {
+    rechercherParNom(nom: string): Observable<string[]> {
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        "Content-Type": "application/json"
-      }),
-      withCredentials: true,
-      observe: 'response' as 'response'
-    };
+        const httpOptions = {
+            withCredentials: true
+        };
 
-    this._http.post(`${URL_BACKEND}/auth`,
-        {
-          "identifiant" : identifiant,
-          "motDePasse" : motDePasse
-        }, httpOptions).subscribe((response) => {
-      console.log(response.status);
-    }, (error: any) => {
-      console.log("error", error);
-    })
-  }
+        return this._http.get<string[]>(`${URL_BACKEND}/collegues?nom=${nom}`, httpOptions);
+    }
 
+    recupererCollegueConnecte(): Observable<Collegue> {
+        const httpOptions = {
+            withCredentials: true
+        };
+
+        return this._http.get<Collegue>(`${URL_BACKEND}/auth/user`, httpOptions)
+            .pipe(tap((collegue: Collegue) => {
+                    this._collegueCourant.next(collegue);
+                },
+                error => this._collegueCourant.error('Erreur dans la récupération de l\'utilisateur connecté.')
+            ));
+    }
+
+    recupererCollegueParMatricule(matricule: string): Observable<Collegue> {
+        const httpOptions = {
+            withCredentials: true
+        };
+
+        return this._http.get<Collegue>(`${URL_BACKEND}/collegues/${matricule}`, httpOptions)
+            .pipe(tap((collegue: Collegue) => {
+                    this._collegueCourant.next(collegue);
+                }
+            ));
+    }
+
+    authentifier(identifiant: string, motDePasse: string): Observable<void> {
+
+        const httpOptions = {
+            headers: new HttpHeaders({
+                "Content-Type": "application/json"
+            }),
+            withCredentials: true
+        };
+
+        return this._http.post<void>(`${URL_BACKEND}/auth`,
+            {
+                "identifiant": identifiant,
+                "motDePasse": motDePasse
+            }, httpOptions).pipe(
+            tap(() => {
+                    this.authenticate.next(true)
+                }
+            ))
+    }
 }

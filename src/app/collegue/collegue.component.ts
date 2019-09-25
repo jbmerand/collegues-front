@@ -1,23 +1,22 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import Collegue from "../Collegue";
 import {DataService} from "../services/data.service";
+import {Subscription} from "rxjs";
 
 @Component({
     selector: 'app-collegue',
     templateUrl: './collegue.component.html',
     styleUrls: []
 })
-export class CollegueComponent implements OnInit {
+export class CollegueComponent implements OnInit, OnDestroy {
 
     col: Collegue;
+    collegueCourantSub: Subscription;
 
     fonctionnalite: string = 'read';
 
     constructor(private dataService: DataService) {
-    }
-
-    valoriserCollegue(): void {
-        this.col = this.dataService.recupererCollegueCourant();
+        this.collegueCourantSub = this.dataService.collegueCourantObs.subscribe((collegue: Collegue) => this.col = collegue);
     }
 
     modifierCollegue(): void {
@@ -35,7 +34,10 @@ export class CollegueComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.valoriserCollegue();
+        this.dataService.recupererCollegueConnecte().subscribe();
     }
 
+    ngOnDestroy() {
+        this.collegueCourantSub.unsubscribe();
+    }
 }

@@ -4,16 +4,24 @@
     </div>
     <div class="card-body">
         <form>
+            <p *ngIf="!isAuthentifier"
+               class="text-danger p-2 font-weight-bold">
+                {{erreurAuthentifier}}
+            </p>
             <div class="form-group">
                 <input #identifiant type="text" class="form-control" placeholder="identifiant (u1)">
             </div>
             <div class="form-group">
-                <input #motDePasse type="password" class="form-control" placeholder="mot de passe (pass1)">
+                <input #motDePasse
+                       type="password"
+                       class="form-control"
+                       placeholder="mot de passe (pass1)"
+                       (keyup.enter)="authentifier(identifiant.value, motDePasse.value)">
             </div>
             <button (click)="authentifier(identifiant.value, motDePasse.value)"
-                    (keyup.enter)="authentifier(identifiant.value,
-            motDePasse.value)" type="button"
-                    class="btn btn-warning">Envoyer
+                    type="button"
+                    class="btn btn-warning">
+                Envoyer
             </button>
         </form>
     </div>
