@@ -19,7 +19,6 @@ export class RechercherCollegueParNomComponent implements OnInit {
 
     rechercherClick(nom): void {
         this.nom = nom;
-        console.log(`recherche du collègue : ${this.nom}`);
         this.dataService.rechercherParNom(this.nom)
             .subscribe(
                 (value: any) => {
@@ -34,7 +33,6 @@ export class RechercherCollegueParNomComponent implements OnInit {
     }
 
     recupererCollegue(matricule: string) {
-        console.log(`récupération du collègue au matricule : ${matricule}`);
         this.dataService.recupererCollegueParMatricule(matricule)
             .subscribe(
             (collegue) => collegue,
@@ -42,6 +40,7 @@ export class RechercherCollegueParNomComponent implements OnInit {
                 this.erreurRecupererMatricule = `Erreur dans la récupération du collègue.`;
             }
         );
+        this.dataService.changerFonctionnalite('read');
     }
 
     ngOnInit() {

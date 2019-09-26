@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import Collegue from "../Collegue";
 import {DataService} from "../services/data.service";
 import {Subscription} from "rxjs";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
     selector: 'app-collegue',
@@ -12,25 +13,32 @@ export class CollegueComponent implements OnInit, OnDestroy {
 
     col: Collegue;
     collegueCourantSub: Subscription;
+    fonctionnaliteSub: Subscription;
+
+    erreurEmailMsg: string = 'Email invalide.';
+    erreurPhotoUrlMsg: string = 'Url invalide.';
+    collegueModifieMsg: string;
 
     fonctionnalite: string = 'read';
 
     constructor(private dataService: DataService) {
         this.collegueCourantSub = this.dataService.collegueCourantObs.subscribe((collegue: Collegue) => this.col = collegue);
+        this.fonctionnaliteSub = this.dataService.fonctionnaliteObs.subscribe((fonctionnalite: string) => this.fonctionnalite = fonctionnalite);
     }
 
     modifierCollegue(): void {
-        console.log('Modification du collègue');
         this.fonctionnalite = 'update';
     }
 
     creerCollegue(): void {
-        console.log('Création du collègue');
         this.fonctionnalite = 'create';
     }
 
     validerModifierCollegue(): void {
-        console.log('Validation de la modification du collègue');
+        this.dataService.updateCollegueSurApi(this.col).subscribe(
+            () => { this.fonctionnalite = 'read'},
+            (error: HttpErrorResponse) => this.collegueModifieMsg = `Echec de la modification des informations du collègue.\n${error.error}`
+        );
     }
 
     ngOnInit() {
@@ -39,5 +47,6 @@ export class CollegueComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.collegueCourantSub.unsubscribe();
+        this.fonctionnaliteSub.unsubscribe();
     }
 }

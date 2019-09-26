@@ -1,58 +1,78 @@
 <article>
-    <div class="row">
-        <div class="col-4">
-            <img *ngIf="col.photoUrl; else blockPhoto" src="{{col.photoUrl}}" alt="photo" class="img-fluid">
-            <ng-template #blockPhoto>
-                <img
-                    src="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png"
-                    alt="photo"
-                    class="img-fluid">
-            </ng-template>
-        </div>
-        <div class="col-8 text-left">
-            <div class="row">
-                <div class="col-sm-4">Matricule</div>
-                <div class="col-sm-8">{{col.matricule | uppercase}}</div>
+    <ng-container *ngIf="fonctionnalite!=='create'">
+        <div class="row">
+            <div class="col-4">
+                <img *ngIf="col.photoUrl; else blockPhoto" src="{{col.photoUrl}}" alt="photo" class="img-fluid">
+                <ng-template #blockPhoto>
+                    <img
+                            src="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png"
+                            alt="photo"
+                            class="img-fluid">
+                </ng-template>
             </div>
-            <div class="row">
-                <div class="col-sm-4">Nom</div>
-                <div class="col-sm-8">{{col.nom | uppercase}}</div>
-            </div>
-            <div class="row">
-                <div class="col-sm-4">Prénoms</div>
-                <div class="col-sm-8">{{col.prenoms}}</div>
-            </div>
-            <div *ngIf="col.dateDeNaissance" class="row">
-                <div class="col-sm-4">Date de naissance</div>
-                <div class="col-sm-8">{{col.dateDeNaissance | date:'dd/MM/yyyy'}}</div>
-            </div>
-            <div *ngIf="fonctionnalite==='read' && col.email" class="row">
-                <div class="col-sm-4">Email</div>
-                <div class="col-sm-8">
-                    <a href="{{col.email}}" class="text-warning">{{col.email}}</a>
+            <div class="col-8 text-left">
+                <div class="row">
+                    <div class="col-sm-4">Matricule</div>
+                    <div class="col-sm-8">{{col.matricule | uppercase}}</div>
                 </div>
-            </div>
-            <form *ngIf="fonctionnalite==='update'">
-                <div class="form-group row">
+                <div class="row">
+                    <div class="col-sm-4">Nom</div>
+                    <div class="col-sm-8">{{col.nom | uppercase}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">Prénoms</div>
+                    <div class="col-sm-8">{{col.prenoms}}</div>
+                </div>
+                <div *ngIf="col.dateDeNaissance" class="row">
+                    <div class="col-sm-4">Date de naissance</div>
+                    <div class="col-sm-8">{{col.dateDeNaissance | date:'dd/MM/yyyy'}}</div>
+                </div>
+                <div *ngIf="fonctionnalite==='read' && col.email" class="row">
                     <div class="col-sm-4">Email</div>
                     <div class="col-sm-8">
-                        <input type="text" class="form-control" name="email" placeholder="{{col.email}}">
+                        <a href="{{col.email}}" class="text-warning">{{col.email}}</a>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <div class="col-sm-4">Photo URL</div>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" name="photoUrl" placeholder="{{col.photoUrl}}">
+                <form *ngIf="fonctionnalite==='update'">
+                    <div class="form-group row">
+                        <div class="col-sm-4">Email</div>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" #emailUpdate="ngModel" [(ngModel)]="col.email"
+                                   name="email"
+                                   value="{{col.email}}" required>
+                            <p class="text-danger"
+                               *ngIf="emailUpdate.dirty && emailUpdate.invalid">{{erreurEmailMsg}}</p>
+                        </div>
                     </div>
-                </div>
-            </form>
+                    <div class="form-group row">
+                        <div class="col-sm-4">Photo URL</div>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" #urlPhotoUpdate="ngModel" [(ngModel)]="col.photoUrl"
+                                   name="photoUrl"
+                                   value="{{col.photoUrl}}" required minlength="7"
+                                   [ngModelOptions]="{updateOn: 'blur'}">
+                            <p class="text-danger"
+                               *ngIf="urlPhotoUpdate.dirty && urlPhotoUpdate.invalid">{{erreurPhotoUrlMsg}}</p>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
-    <div *ngIf="fonctionnalite==='read'">
-        <a href="#" (click)="creerCollegue()" class="text-warning text-center">Créer un nouveau collègue</a>
-        <button (click)="modifierCollegue()" type="submit" class="btn btn-warning float-right">Modifier</button>
-    </div>
-    <div *ngIf="fonctionnalite==='update'">
-        <button (click)="validerModifierCollegue()" type="submit" class="btn btn-warning float-right">Valider</button>
-    </div>
+        <div *ngIf="fonctionnalite==='read'">
+            <a href="#" (click)="creerCollegue()" class="text-warning text-center">Créer un nouveau collègue</a>
+            <button *ngIf="col.email && col.photoUrl" (click)="modifierCollegue()" type="submit"
+                    class="btn btn-warning float-right">
+                Modifier
+            </button>
+        </div>
+        <div *ngIf="fonctionnalite==='update'">
+            <button (click)="validerModifierCollegue()" type="submit" class="btn btn-warning float-right">Valider
+            </button>
+            <p class="text-danger" *ngIf="collegueModifieMsg">{{collegueModifieMsg}}</p>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="fonctionnalite==='create'">
+        <app-creer-collegue></app-creer-collegue>
+    </ng-container>
 </article>
