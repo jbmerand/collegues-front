@@ -36,24 +36,37 @@
         <div class="row">
             <label class="col-sm-4" for="email">Email</label>
             <div class="col-sm-8">
-                <input class="w-100 text-dark" #email="ngModel" [(ngModel)]="collegue.email"
+                <input appEmailValidator class="w-100 text-dark" #email="ngModel" [(ngModel)]="collegue.email"
                        [ngModelOptions]="{updateOn: 'blur'}"
-                       id="email" name="email" required minlength="7" placeholder="louis@mail.com">
-                <p class="text-danger" *ngIf="email.dirty && email.invalid">{{champsInvalideMsg}}</p>
+                       id="email" name="email" required placeholder="louis@mail.com">
+                <ng-container *ngIf="email.dirty && email.invalid">
+                    <p class="text-danger" >{{champsInvalideMsg}}</p>
+                    <ng-container *ngIf="email.errors.emailInvalide">
+                        <p class="text-danger">Cet email est déjà utilisé.</p>
+                    </ng-container>
+                </ng-container>
+
+
             </div>
         </div>
         <div class="row">
             <label class="col-sm-4" for="photoUrl">Photo URL (au moins 7 caractères)</label>
             <div class="col-sm-8">
-                <input class="w-100 text-dark" #urlPhoto="ngModel" [(ngModel)]="collegue.photoUrl"
-                       [ngModelOptions]="{updateOn: 'blur'}"
-                       id="photoUrl" name="photoUrl" required minlength="7" placeholder="http://...">
-                <p class="text-danger" *ngIf="urlPhoto.dirty && urlPhoto.invalid">{{champsInvalideMsg}}</p>
+                <input appUrlValidator class="w-100 text-dark" #urlPhoto="ngModel" [(ngModel)]="collegue.photoUrl"
+                       id="photoUrl" name="photoUrl" [ngModelOptions]="{updateOn: 'blur'}" required minlength="7"
+                       placeholder="http://...">
+                <ng-container *ngIf="urlPhoto.dirty && urlPhoto.invalid">
+                    <p class="text-danger">
+                        {{champsInvalideMsg}}
+                        <ng-container *ngIf="urlPhoto.errors.urlInvalide">
+                            L'url doit commencer par 'http'.
+                        </ng-container>
+                    </p>
+                </ng-container>
             </div>
         </div>
     </div>
-    <button (click)="creerCollegue(formCreationCollegue)" type="submit" [disabled]="!formCreationCollegue.valid"
-            class="btn btn-warning float-right">Créer
+    <button (click)="creerCollegue(formCreationCollegue)" type="submit" class="btn btn-warning float-right">Créer
     </button>
     <p class="text-danger" *ngIf="erreurCreerCollegueReqMsg">{{erreurCreerCollegueReqMsg}}</p>
 </form>

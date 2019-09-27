@@ -20,7 +20,11 @@ export class CreerCollegueComponent implements OnInit {
     constructor(private dataService: DataService) {
     }
 
-    creerCollegue(formCreationCollegue: NgForm) {
+    creerCollegue(formCreationCollegue: NgForm): void {
+        if(formCreationCollegue.invalid) {
+            this.erreurCreerCollegueReqMsg = 'Merci de compléter ou de corriger le formulaire.';
+            return;
+        }
         this.dataService.creerCollegueReq(this.collegue).subscribe(
             (collegue) => {
                 formCreationCollegue.reset();

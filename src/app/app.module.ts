@@ -10,6 +10,8 @@ import { AuthentificationComponent } from './authentification/authentification.c
 import {FormsModule} from "@angular/forms";
 import { CreerCollegueComponent } from './collegue/creer-collegue/creer-collegue.component';
 import {NgbDateAdapter, NgbDateNativeAdapter, NgbDatepickerModule} from "@ng-bootstrap/ng-bootstrap";
+import { UrlValidatorDirective } from './validators/url-validator.directive';
+import { EmailValidatorDirective } from './validators/email-validator.directive';
 
 @NgModule({
     declarations: [
@@ -17,7 +19,9 @@ import {NgbDateAdapter, NgbDateNativeAdapter, NgbDatepickerModule} from "@ng-boo
         CollegueComponent,
         RechercherCollegueParNomComponent,
         AuthentificationComponent,
-        CreerCollegueComponent
+        CreerCollegueComponent,
+        UrlValidatorDirective,
+        EmailValidatorDirective
     ],
     imports: [
         BrowserModule,

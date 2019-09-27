@@ -130,4 +130,17 @@ export class DataService {
                 }
             ))
     }
+
+    verifierEmailExisteReq(email: string): Observable<any> {
+
+        const httpOptions = {
+            headers: new HttpHeaders({
+                "Content-Type": "text"
+            }),
+            withCredentials: true
+        };
+
+        return this._http.get(`${URL_BACKEND}/collegues/emails/${email}`, httpOptions);
+
+    }
 }
