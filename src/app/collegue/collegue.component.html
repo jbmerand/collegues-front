@@ -4,10 +4,9 @@
             <div class="col-4">
                 <img *ngIf="col.photoUrl; else blockPhoto" src="{{col.photoUrl}}" alt="photo" class="img-fluid">
                 <ng-template #blockPhoto>
-                    <img
-                            src="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png"
-                            alt="photo"
-                            class="img-fluid">
+                    <img src="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png"
+                         alt="photo"
+                         class="img-fluid">
                 </ng-template>
             </div>
             <div class="col-8 text-left">
@@ -59,7 +58,8 @@
             </div>
         </div>
         <div *ngIf="fonctionnalite==='read'">
-            <a href="#" (click)="creerCollegue()" class="text-warning text-center">Créer un nouveau collègue</a>
+            <a style="cursor: pointer" (click)="creerCollegue()" class="text-warning text-center">Créer un nouveau
+                collègue</a>
             <button *ngIf="col.email && col.photoUrl" (click)="modifierCollegue()" type="submit"
                     class="btn btn-warning float-right">
                 Modifier

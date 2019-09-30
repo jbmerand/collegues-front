@@ -1,0 +1,39 @@
+<article>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+            <ng-container *ngIf="!isErreur">
+                <div class="row">
+                    <img *ngIf="col.photoUrl; else blockPhoto" src="{{col.photoUrl}}" alt="photo" class="img-fluid">
+                    <ng-template #blockPhoto>
+                        <img src="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png"
+                             alt="photo"
+                             class="img-fluid">
+                    </ng-template>
+                </div>
+                <div class="text-left">
+                    <div class="row">
+                        <div class="col-sm-4">Matricule</div>
+                        <div class="col-sm-8">{{col.matricule | uppercase}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">Nom</div>
+                        <div class="col-sm-8">{{col.nom | uppercase}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">Prénoms</div>
+                        <div class="col-sm-8">{{col.prenoms}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">Email</div>
+                        <div class="col-sm-8">
+                            <a href="{{col.email}}" class="text-warning">{{col.email}}</a>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <p *ngIf="isErreur" class="text-danger text-center">Erreur de chargement des données du collègue.</p>
+        </div>
+        <div class="col-2"></div>
+    </div>
+</article>

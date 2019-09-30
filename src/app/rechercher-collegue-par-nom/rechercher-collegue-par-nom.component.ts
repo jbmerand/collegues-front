@@ -32,7 +32,8 @@ export class RechercherCollegueParNomComponent implements OnInit {
         this.isMatriculesHidden = false;
     }
 
-    recupererCollegue(matricule: string) {
+    recupererCollegue(matricule: string): void {
+        this.dataService.changerFonctionnalite('read');
         this.dataService.recupererCollegueParMatricule(matricule)
             .subscribe(
             (collegue) => collegue,
@@ -40,7 +41,6 @@ export class RechercherCollegueParNomComponent implements OnInit {
                 this.erreurRecupererMatricule = `Erreur dans la récupération du collègue.`;
             }
         );
-        this.dataService.changerFonctionnalite('read');
     }
 
     ngOnInit() {

@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import Collegue from "../Collegue";
-import {Observable, Subject} from "rxjs";
+import {Observable, of, Subject} from "rxjs";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from '../../environments/environment';
-import {tap} from "rxjs/operators";
+import {catchError, map, tap} from "rxjs/operators";
 
 const URL_BACKEND = environment.backendUrl;
 
@@ -56,8 +56,7 @@ export class DataService {
         return this._http.get<Collegue>(`${URL_BACKEND}/auth/user`, httpOptions)
             .pipe(tap((collegue: Collegue) => {
                     this._collegueCourant.next(collegue);
-                },
-                error => this._collegueCourant.error('Erreur dans la récupération de l\'utilisateur connecté.')
+                }
             ));
     }
 
@@ -71,6 +70,14 @@ export class DataService {
                     this._collegueCourant.next(collegue);
                 }
             ));
+    }
+
+    recupererToutesUrlPhotosEtMatricules(): Observable<string[]> {
+        const httpOptions = {
+            withCredentials: true
+        };
+
+        return this._http.get<string[]>(`${URL_BACKEND}/collegues/photos`, httpOptions);
     }
 
     updateCollegueSurApi(col: Collegue): Observable<Collegue> {
@@ -142,5 +149,19 @@ export class DataService {
 
         return this._http.get(`${URL_BACKEND}/collegues/emails/${email}`, httpOptions);
 
+    }
+
+    isAuthentifie(): Observable<boolean> {
+        return this.recupererCollegueConnecte().pipe(
+            map(() => true, catchError(() => of(false))
+            ))
+    }
+
+    seDeconnecter(): Observable<any> {
+        const httpOptions = {
+            withCredentials: true
+        };
+
+        return this._http.post(`${URL_BACKEND}/logout`, {}, httpOptions);
     }
 }

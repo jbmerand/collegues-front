@@ -1,0 +1,9 @@
+<div class="container">
+    <div class="row">
+        <div *ngFor="let element of tableauDesUrlPhotosEtMatricules" class="col-4 p-2">
+            <a routerLink="/gallerie/{{element.matricule}}">
+                <img src="{{element.photoUrl}}" class="img-fluid" alt="photo du collègue">
+            </a>
+        </div>
+    </div>
+</div>

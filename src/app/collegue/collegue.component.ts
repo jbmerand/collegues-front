@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnChanges, OnDestroy, OnInit} from '@angular/core';
 import Collegue from "../Collegue";
 import {DataService} from "../services/data.service";
 import {Subscription} from "rxjs";
@@ -7,7 +7,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 @Component({
     selector: 'app-collegue',
     templateUrl: './collegue.component.html',
-    styleUrls: []
+    styles: []
 })
 export class CollegueComponent implements OnInit, OnDestroy {
 
@@ -22,8 +22,11 @@ export class CollegueComponent implements OnInit, OnDestroy {
     fonctionnalite: string = 'read';
 
     constructor(private dataService: DataService) {
-        this.collegueCourantSub = this.dataService.collegueCourantObs.subscribe((collegue: Collegue) => this.col = collegue);
-        this.fonctionnaliteSub = this.dataService.fonctionnaliteObs.subscribe((fonctionnalite: string) => this.fonctionnalite = fonctionnalite);
+        if(!this.col) {
+            this.dataService.recupererCollegueConnecte().subscribe(
+                (collegue) => this.col = collegue
+            );
+        }
     }
 
     modifierCollegue(): void {
@@ -42,7 +45,8 @@ export class CollegueComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.dataService.recupererCollegueConnecte().subscribe();
+        this.collegueCourantSub = this.dataService.collegueCourantObs.subscribe((collegue: Collegue) => this.col = collegue);
+        this.fonctionnaliteSub = this.dataService.fonctionnaliteObs.subscribe((fonctionnalite: string) => this.fonctionnalite = fonctionnalite);
     }
 
     ngOnDestroy() {

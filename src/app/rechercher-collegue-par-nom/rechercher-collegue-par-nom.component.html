@@ -16,7 +16,7 @@
         <p class="text-danger p-3" *ngIf="erreurRechercheMatricule">{{erreurRechercheMatricule}}</p>
         <ng-container *ngIf="matricules && matricules.length>0">
         <ng-container *ngFor="let matricule of matricules">
-            <a href="#" class="d-block text-warning p-1"
+            <a class="d-block text-warning p-1" style="cursor: pointer"
                 (click)="recupererCollegue(matricule)">{{matricule |
                 uppercase}}
             </a>

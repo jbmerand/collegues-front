@@ -1,11 +1,10 @@
-<div class="container card bg-dark text-warning" style="max-width: 40rem;">
+<div class="container card bg-dark text-warning mt-5" style="max-width: 40rem;">
     <div class="card-header">
         <h3 class="card-title">Authentification</h3>
     </div>
     <div class="card-body">
         <form>
-            <p *ngIf="!isAuthentifier"
-               class="text-danger p-2 font-weight-bold">
+            <p *ngIf="!isAuthentifier" class="text-danger p-2 font-weight-bold text-center">
                 {{erreurAuthentifier}}
             </p>
             <div class="form-group">
@@ -20,8 +19,7 @@
             </div>
             <button (click)="authentifier(identifiant.value, motDePasse.value)"
                     type="button"
-                    class="btn btn-warning">
-                Envoyer
+                    class="btn btn-warning">Envoyer
             </button>
         </form>
     </div>

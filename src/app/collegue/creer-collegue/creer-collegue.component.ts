@@ -15,7 +15,7 @@ export class CreerCollegueComponent implements OnInit {
 
     collegue: Collegue = new Collegue(null, null, null, null, null, null);
     erreurCreerCollegueReqMsg: string;
-    champsInvalideMsg: string = 'Champs invalide.';
+    champsInvalideMsg: string = 'Champ invalide.';
 
     constructor(private dataService: DataService) {
     }
